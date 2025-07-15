@@ -45,11 +45,10 @@ Always ground your answer in the retrieved context. If the context lacks
 information about the message the user asks, say "No info in context, but here 
 is what I know..." and then answer from your background knowledge.
 """
+# Generic chat prompt (RAG-specific context will be handled in rag_chain.py)
 prompt = ChatPromptTemplate.from_messages([
     ("system", system_text),
-    MessagesPlaceholder(variable_name="context"),
-    MessagesPlaceholder(variable_name = "chat_history"),
-    ("user", "{question}"), # Why did we change to context
+    MessagesPlaceholder(variable_name="messages"),
 ])
 
 # 4. Build LangGraph-based chat workflow
