@@ -1,6 +1,10 @@
 from typing import Optional
 
-from langchain.chains import ConversationalRetrievalChain
+# Support both old and new LangChain import paths
+try:
+    from langchain.chains import ConversationalRetrievalChain  # v0.0.x, v0.1.x top-level re-export
+except ImportError:  # older or future versions where it isn't re-exported
+    from langchain.chains.conversational_retrieval.base import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.schema import HumanMessage
