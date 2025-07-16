@@ -32,8 +32,8 @@ def build_vector_store(
     A Chroma vector store object
     """
     vectordb = Chroma.from_documents(
-        documents = chunks,
-        embeddings = embeddings, 
+        documents=chunks,
+        embedding=embeddings,
         collection_name = collection_name,
         persist_directory=persist_directory
     )
@@ -63,7 +63,7 @@ def load_vector_store(
         persist_directory=persist_directory
     )
     num_vectors = vectordb._collection.count()
-    print(f"[VectorStore] Loaded {num_vectors} vectors from {collection_name}'.")
+    print(f"[VectorStore] Loaded {num_vectors} vectors from '{collection_name}'.")
     return vectordb
 
 # 4. Return a retriever interface from the vector store
