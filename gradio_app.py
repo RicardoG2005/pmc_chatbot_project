@@ -5,24 +5,14 @@ from typing import List, Tuple
 import gradio as gr
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 
-from env_setup import configure_env
 from llm_core import model, system_text  # reuse the same model & prompt basis
-from vector_store import load_vector_store, get_retriever
+from rag_chain import retriever, default_k
 
 # -----------------------------------------------------------------------------
-# Environment & global resources
+# Global resources imported from the RAG pipeline layer
 # -----------------------------------------------------------------------------
-
-# Ensure .env is loaded and OPENAI_API_KEY is set
-configure_env()
-
-# Load the persisted Chroma collection once at start-up.
-# You may need to run the indexing pipeline first (see data_loader / text_processing).
-vectordb = load_vector_store()
-
-# Default number of documents to retrieve. Can be changed from the UI.
-default_k = 5
-retriever = get_retriever(vectordb, k=default_k)
+# `retriever` and `default_k` are initialised in rag_chain.py so that all
+# entry-points (CLI, FastAPI, Gradio) share the same underlying resources.
 
 # -----------------------------------------------------------------------------
 # Helper functions
