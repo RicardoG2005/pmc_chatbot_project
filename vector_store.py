@@ -1,10 +1,16 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from typing import List
 from langchain.schema import Document
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.vectorstores import Chroma
+import os
 
 # 1. Initialize the embedding model
-embeddings = OpenAIEmbeddings(chunk_size=50)
+embeddings = OpenAIEmbeddings(
+    openai_api_key = os.getenv("OPENAI_API_KEY"),
+    chunk_size=50)
 
 # numerical vector representation of a piece of text
 # Texts with similar meaning have similar vectors
@@ -39,6 +45,7 @@ def build_vector_store(
     )
     num_vectors = vectordb._collection.count()
     print(f"[VectorStore] Indexed {num_vectors} vectors into collection '{collection_name}'.")
+    print(f"[VectorStore] Attempted to embed {len(chunks)} chunks.")
     return vectordb
 
 # 3. Load an existing Chroma vector store from disk
